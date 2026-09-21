@@ -1,24 +1,23 @@
 export function KoniLogo({ compact = false }: { compact?: boolean }) {
   return (
-    <div className="flex min-w-0 items-center gap-3">
-      <div className="flex size-11 shrink-0 items-center justify-center rounded-full bg-white p-1 shadow-sm ring-2 ring-primary/20 transition-transform duration-200 hover:scale-105">
-        <img
-          src="/koni-logo.svg"
-          alt="Logo KONI Kabupaten Nganjuk"
-          className="size-full object-contain"
-          width={44}
-          height={44}
-        />
-      </div>
+    <div className="group flex min-w-0 items-center gap-3">
+      <img
+        src="/koni-logo.svg"
+        alt="Logo KONI Kabupaten Nganjuk"
+        className="shrink-0 object-contain transition-transform duration-300 group-hover:scale-105"
+        width={64}
+        height={64}
+        style={{ width: 64, height: 64 }}
+      />
       {!compact && (
-        <span className="min-w-0 leading-tight">
-          <strong className="block truncate font-display text-base font-extrabold text-primary">
+        <div className="min-w-0 leading-tight">
+          <span className="block truncate font-display text-base font-black tracking-tight text-primary sm:text-xl">
             KONI NGANJUK
-          </strong>
-          <span className="block truncate text-[11px] font-semibold uppercase text-muted-foreground">
+          </span>
+          <span className="block truncate text-[11px] font-medium text-muted-foreground sm:text-xs">
             Komite Olahraga Nasional Indonesia
           </span>
-        </span>
+        </div>
       )}
     </div>
   );
