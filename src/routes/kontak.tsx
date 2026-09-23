@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { CheckCircle2, Clock, Mail, MapPin, Phone, Send } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PageIntro } from "@/components/page-intro";
+import { getDynamicSettings } from "@/lib/content";
 
 export const Route = createFileRoute("/kontak")({
   head: () => ({
@@ -21,6 +22,7 @@ export const Route = createFileRoute("/kontak")({
 });
 
 function KontakPage() {
+  const [settings, setSettings] = useState(() => getDynamicSettings());
   const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -28,6 +30,12 @@ function KontakPage() {
     subject: "",
     message: "",
   });
+
+  useEffect(() => {
+    const refresh = () => setSettings(getDynamicSettings());
+    window.addEventListener("koni-store-change", refresh);
+    return () => window.removeEventListener("koni-store-change", refresh);
+  }, []);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -60,10 +68,8 @@ function KontakPage() {
               </span>
               <div>
                 <h3 className="font-display font-bold text-foreground">Sekretariat</h3>
-                <p className="mt-1 text-sm leading-6 text-muted-foreground">
-                  Stadion Anjuk Ladang / Kompleks Olahraga Kabupaten Nganjuk
-                  <br />
-                  Jawa Timur 64419
+                <p className="mt-1 text-sm leading-6 text-muted-foreground whitespace-pre-line">
+                  {settings.address}
                 </p>
               </div>
             </div>
@@ -89,7 +95,7 @@ function KontakPage() {
               <div>
                 <h3 className="font-display font-bold text-foreground">Surat Elektronik</h3>
                 <p className="mt-1 text-sm leading-6 text-muted-foreground">
-                  sekretariat@koni-nganjuk.or.id
+                  {settings.email}
                   <br />
                   <span className="text-xs text-muted-foreground/80">Respons dalam 1–2 hari kerja</span>
                 </p>
@@ -103,7 +109,7 @@ function KontakPage() {
               <div>
                 <h3 className="font-display font-bold text-foreground">Telepon / WhatsApp</h3>
                 <p className="mt-1 text-sm leading-6 text-muted-foreground">
-                  (0358) 321xxx / WhatsApp Layanan Resmi
+                  {settings.phone}
                 </p>
               </div>
             </div>

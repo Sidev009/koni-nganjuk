@@ -3,7 +3,7 @@ import { CalendarDays, Search } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { PageIntro } from "@/components/page-intro";
 import { Reveal } from "@/components/reveal";
-import { news } from "@/lib/content";
+import { getDynamicNews } from "@/lib/content";
 
 function BeritaRouteComponent() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
@@ -35,9 +35,16 @@ export const Route = createFileRoute("/berita")({
 
 function BeritaPage() {
   const { q } = Route.useSearch();
+  const [news, setNews] = useState(() => getDynamicNews());
   const [query, setQuery] = useState(q ?? "");
   const [category, setCategory] = useState("Semua");
-  const categories = useMemo(() => ["Semua", ...Array.from(new Set(news.map((item) => item.category)))], []);
+  const categories = useMemo(() => ["Semua", ...Array.from(new Set(news.map((item) => item.category)))], [news]);
+
+  useEffect(() => {
+    const refresh = () => setNews(getDynamicNews());
+    window.addEventListener("koni-store-change", refresh);
+    return () => window.removeEventListener("koni-store-change", refresh);
+  }, []);
 
   useEffect(() => {
     if (q !== undefined) {

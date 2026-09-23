@@ -1,31 +1,32 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ArrowLeft, CalendarDays, Tag, Share2 } from "lucide-react";
-import { news } from "@/lib/content";
+import { ArrowLeft, CalendarDays, Tag } from "lucide-react";
+import { getDynamicNews } from "@/lib/content";
 
 export const Route = createFileRoute("/berita/$slug")({
   loader: ({ params }) => {
-    const article = news.find((item) => item.slug === params.slug);
+    const allNews = getDynamicNews();
+    const article = allNews.find((item) => item.slug === params.slug);
     if (!article) throw notFound();
-    return article;
+    return { article, allNews };
   },
   head: ({ loaderData }) => ({
     meta: [
       {
-        title: loaderData
-          ? `${loaderData.title} — KONI Nganjuk`
+        title: loaderData?.article
+          ? `${loaderData.article.title} — KONI Nganjuk`
           : "Berita tidak ditemukan",
       },
       {
         name: "description",
-        content: loaderData?.excerpt ?? "Berita KONI Kabupaten Nganjuk.",
+        content: loaderData?.article?.excerpt ?? "Berita KONI Kabupaten Nganjuk.",
       },
       {
         property: "og:title",
-        content: loaderData?.title ?? "Berita KONI Nganjuk",
+        content: loaderData?.article?.title ?? "Berita KONI Nganjuk",
       },
       {
         property: "og:description",
-        content: loaderData?.excerpt ?? "Berita KONI Kabupaten Nganjuk.",
+        content: loaderData?.article?.excerpt ?? "Berita KONI Kabupaten Nganjuk.",
       },
       { property: "og:type", content: "article" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -35,8 +36,8 @@ export const Route = createFileRoute("/berita/$slug")({
 });
 
 function DetailBerita() {
-  const article = Route.useLoaderData();
-  const otherNews = news.filter((item) => item.slug !== article.slug);
+  const { article, allNews } = Route.useLoaderData();
+  const otherNews = allNews.filter((item) => item.slug !== article.slug);
 
   return (
     <div className="py-10 sm:py-14">
@@ -79,26 +80,34 @@ function DetailBerita() {
         </div>
 
         <div className="mt-10 space-y-6 text-base leading-8 text-foreground/80 sm:text-lg">
-          <p className="font-medium text-foreground">{article.excerpt}</p>
-          <p>
-            Komite Olahraga Nasional Indonesia (KONI) Kabupaten Nganjuk terus
-            berkomitmen mendorong peningkatan kualitas pembinaan cabang olahraga
-            secara berkelanjutan. Melalui kolaborasi antara pengurus cabang,
-            pelatih, dan atlet, seluruh program diarahkan untuk menciptakan iklim
-            olahraga yang kompetitif, sehat, dan menjunjung tinggi nilai
-            sportivitas.
-          </p>
-          <p>
-            Dukungan fasilitas, pembinaan usia dini, serta penguatan kompetensi
-            pelatih dan wasit menjadi pilar penting agar atlet daerah mampu
-            bersaing tidak hanya di tingkat karesidenan dan provinsi, tetapi juga
-            di ajang kejuaraan nasional.
-          </p>
-          <p>
-            Masyarakat Kabupaten Nganjuk diharapkan terus memberikan doa serta
-            dukungan moral bagi seluruh atlet yang tengah berjuang membawa nama
-            harum daerah di kancah olahraga Indonesia.
-          </p>
+          <p className="font-semibold text-foreground text-lg sm:text-xl leading-relaxed">{article.excerpt}</p>
+          {(article as { content?: string }).content ? (
+            <div className="space-y-4 whitespace-pre-line text-foreground/90">
+              {(article as { content?: string }).content}
+            </div>
+          ) : (
+            <>
+              <p>
+                Komite Olahraga Nasional Indonesia (KONI) Kabupaten Nganjuk terus
+                berkomitmen mendorong peningkatan kualitas pembinaan cabang olahraga
+                secara berkelanjutan. Melalui kolaborasi antara pengurus cabang,
+                pelatih, dan atlet, seluruh program diarahkan untuk menciptakan iklim
+                olahraga yang kompetitif, sehat, dan menjunjung tinggi nilai
+                sportivitas.
+              </p>
+              <p>
+                Dukungan fasilitas, pembinaan usia dini, serta penguatan kompetensi
+                pelatih dan wasit menjadi pilar penting agar atlet daerah mampu
+                bersaing tidak hanya di tingkat karesidenan dan provinsi, tetapi juga
+                di ajang kejuaraan nasional.
+              </p>
+              <p>
+                Masyarakat Kabupaten Nganjuk diharapkan terus memberikan doa serta
+                dukungan moral bagi seluruh atlet yang tengah berjuang membawa nama
+                harum daerah di kancah olahraga Indonesia.
+              </p>
+            </>
+          )}
         </div>
 
         {/* Other news recommendation */}

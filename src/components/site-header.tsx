@@ -12,6 +12,8 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { KoniLogo } from "./koni-logo";
+import { getDynamicTicker } from "@/lib/content";
+
 
 const navigation = [
   { label: "Beranda", to: "/", icon: Home },
@@ -26,8 +28,17 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState("");
+  const [tickerItems, setTickerItems] = useState(() => getDynamicTicker());
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const navigate = useNavigate();
+
+  // Update ticker when admin changes it
+  useEffect(() => {
+    const refresh = () => setTickerItems(getDynamicTicker());
+    window.addEventListener("koni-store-change", refresh);
+    return () => window.removeEventListener("koni-store-change", refresh);
+  }, []);
+
 
   // Close search and mobile nav on route change
   useEffect(() => {
@@ -49,36 +60,23 @@ export function SiteHeader() {
       {/* Running Announcement Ticker */}
       <div className="overflow-hidden border-b border-primary/20 bg-gradient-to-r from-primary via-primary/95 to-slate-900 py-1.5 text-xs font-semibold text-primary-foreground">
         <div className="ticker-track">
-          <span className="inline-flex items-center gap-6 px-4">
-            <span className="inline-flex items-center gap-1.5 font-bold uppercase text-accent">
-              <span className="size-2 rounded-full bg-accent animate-pulse" />
-              PENGUMUMAN RESMI:
+          {[0, 1].map((copy) => (
+            <span key={copy} className="inline-flex items-center gap-6 px-4" aria-hidden={copy === 1 ? "true" : undefined}>
+              <span className="inline-flex items-center gap-1.5 font-bold uppercase text-accent">
+                <span className="size-2 rounded-full bg-accent animate-pulse" />
+                PENGUMUMAN RESMI:
+              </span>
+              {tickerItems.map((item, i) => (
+                <span key={i} className="inline-flex items-center gap-6">
+                  <span>{item}</span>
+                  <span>•</span>
+                </span>
+              ))}
             </span>
-            <span>Selamat Datang di Portal Resmi KONI Kabupaten Nganjuk</span>
-            <span>•</span>
-            <span>Pemusatan Latihan 30+ Cabang Olahraga Aktif</span>
-            <span>•</span>
-            <span>Semangat Sportivitas Generasi Muda Nganjuk</span>
-            <span>•</span>
-            <span>Sekretariat: Stadion Anjuk Ladang Nganjuk</span>
-            <span>•</span>
-          </span>
-          <span className="inline-flex items-center gap-6 px-4" aria-hidden="true">
-            <span className="inline-flex items-center gap-1.5 font-bold uppercase text-accent">
-              <span className="size-2 rounded-full bg-accent animate-pulse" />
-              PENGUMUMAN RESMI:
-            </span>
-            <span>Selamat Datang di Portal Resmi KONI Kabupaten Nganjuk</span>
-            <span>•</span>
-            <span>Pemusatan Latihan 30+ Cabang Olahraga Aktif</span>
-            <span>•</span>
-            <span>Semangat Sportivitas Generasi Muda Nganjuk</span>
-            <span>•</span>
-            <span>Sekretariat: Stadion Anjuk Ladang Nganjuk</span>
-            <span>•</span>
-          </span>
+          ))}
         </div>
       </div>
+
 
       {/* Main Navbar */}
       <div className="border-b border-border/70 bg-background/95 backdrop-blur-md">

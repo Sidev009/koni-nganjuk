@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ExternalLink, Play, Youtube } from "lucide-react";
+import { useEffect, useState } from "react";
 import { PageIntro } from "@/components/page-intro";
+import { getDynamicVideos, getDynamicSettings } from "@/lib/content";
 
 export const Route = createFileRoute("/video")({
   head: () => ({
@@ -22,22 +24,19 @@ export const Route = createFileRoute("/video")({
   component: VideoPage,
 });
 
-const videoList = [
-  {
-    id: "ScMzIvxBSi4",
-    title: "Semangat Olahraga Kabupaten Nganjuk",
-    description: "Dokumentasi kebersamaan atlet, pelatih, dan pengurus cabang olahraga dalam membangun prestasi olahraga daerah.",
-    category: "Liputan Kegiatan",
-  },
-  {
-    id: "M7lc1UVf-VE",
-    title: "Pembinaan Atlet Menuju Prestasi Provinsi & Nasional",
-    description: "Program pelatihan terpusat serta dedikasi atlet muda Nganjuk dalam mengasah fisik, teknik, dan mental juara.",
-    category: "Pembinaan Atlet",
-  },
-];
-
 function VideoPage() {
+  const [videoList, setVideoList] = useState(() => getDynamicVideos());
+  const [settings, setSettings] = useState(() => getDynamicSettings());
+
+  useEffect(() => {
+    const refresh = () => {
+      setVideoList(getDynamicVideos());
+      setSettings(getDynamicSettings());
+    };
+    window.addEventListener("koni-store-change", refresh);
+    return () => window.removeEventListener("koni-store-change", refresh);
+  }, []);
+
   return (
     <>
       <PageIntro
@@ -57,7 +56,7 @@ function VideoPage() {
                 <div className="aspect-video bg-neutral-900">
                   <iframe
                     className="size-full"
-                    src={`https://www.youtube-nocookie.com/embed/${video.id}`}
+                    src={`https://www.youtube-nocookie.com/embed/${video.youtubeId}`}
                     title={video.title}
                     loading="lazy"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -89,7 +88,7 @@ function VideoPage() {
               Dapatkan update video pertandingan, profil atlet berprestasi, dan sorotan kegiatan olahraga terkini di kanal YouTube kami.
             </p>
             <a
-              href="https://www.youtube.com/"
+              href={settings.youtubeChannelUrl}
               target="_blank"
               rel="noreferrer"
               className="mt-6 inline-flex items-center gap-2 rounded-md bg-accent px-6 py-3 text-sm font-bold text-accent-foreground shadow-md transition-transform hover:-translate-y-0.5"

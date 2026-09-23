@@ -3,7 +3,8 @@ import { ChevronLeft, ChevronRight, X, ZoomIn } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { PageIntro } from "@/components/page-intro";
 import { Reveal } from "@/components/reveal";
-import { gallery } from "@/lib/content";
+import { getDynamicGallery } from "@/lib/content";
+
 
 export const Route = createFileRoute("/galeri")({
   head: () => ({ meta: [{ title: "Galeri — KONI Kabupaten Nganjuk" }, { name: "description", content: "Dokumentasi kegiatan dan prestasi olahraga KONI Kabupaten Nganjuk." }, { property: "og:title", content: "Galeri KONI Kabupaten Nganjuk" }, { property: "og:description", content: "Dokumentasi kegiatan olahraga Kabupaten Nganjuk." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
@@ -11,7 +12,16 @@ export const Route = createFileRoute("/galeri")({
 });
 
 function GaleriPage() {
+  const [gallery, setGallery] = useState(() => getDynamicGallery());
   const [active, setActive] = useState<number | null>(null);
+
+  useEffect(() => {
+    const refresh = () => setGallery(getDynamicGallery());
+    window.addEventListener("koni-store-change", refresh);
+    return () => window.removeEventListener("koni-store-change", refresh);
+  }, []);
+
+
 
   const move = useCallback((step: number) => {
     setActive((current) => (current === null ? current : (current + step + gallery.length) % gallery.length));

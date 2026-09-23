@@ -10,16 +10,29 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as BeritaRouteImport } from './routes/berita'
 import { Route as GaleriRouteImport } from './routes/galeri'
 import { Route as KontakRouteImport } from './routes/kontak'
 import { Route as ProfilRouteImport } from './routes/profil'
 import { Route as VideoRouteImport } from './routes/video'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminBeritaRouteImport } from './routes/admin.berita'
+import { Route as AdminGaleriRouteImport } from './routes/admin.galeri'
+import { Route as AdminHeaderRouteImport } from './routes/admin.header'
+import { Route as AdminLoginRouteImport } from './routes/admin.login'
+import { Route as AdminPengaturanRouteImport } from './routes/admin.pengaturan'
+import { Route as AdminVideoRouteImport } from './routes/admin.video'
 import { Route as BeritaSlugRouteImport } from './routes/berita.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BeritaRoute = BeritaRouteImport.update({
@@ -47,6 +60,41 @@ const VideoRoute = VideoRouteImport.update({
   path: '/video',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminBeritaRoute = AdminBeritaRouteImport.update({
+  id: '/berita',
+  path: '/berita',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminGaleriRoute = AdminGaleriRouteImport.update({
+  id: '/galeri',
+  path: '/galeri',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminHeaderRoute = AdminHeaderRouteImport.update({
+  id: '/header',
+  path: '/header',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminPengaturanRoute = AdminPengaturanRouteImport.update({
+  id: '/pengaturan',
+  path: '/pengaturan',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminVideoRoute = AdminVideoRouteImport.update({
+  id: '/video',
+  path: '/video',
+  getParentRoute: () => AdminRoute,
+} as any)
 const BeritaSlugRoute = BeritaSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
@@ -55,12 +103,20 @@ const BeritaSlugRoute = BeritaSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/berita': typeof BeritaRouteWithChildren
   '/galeri': typeof GaleriRoute
   '/kontak': typeof KontakRoute
   '/profil': typeof ProfilRoute
   '/video': typeof VideoRoute
+  '/admin/berita': typeof AdminBeritaRoute
+  '/admin/galeri': typeof AdminGaleriRoute
+  '/admin/header': typeof AdminHeaderRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/admin/pengaturan': typeof AdminPengaturanRoute
+  '/admin/video': typeof AdminVideoRoute
   '/berita/$slug': typeof BeritaSlugRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -69,28 +125,51 @@ export interface FileRoutesByTo {
   '/kontak': typeof KontakRoute
   '/profil': typeof ProfilRoute
   '/video': typeof VideoRoute
+  '/admin/berita': typeof AdminBeritaRoute
+  '/admin/galeri': typeof AdminGaleriRoute
+  '/admin/header': typeof AdminHeaderRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/admin/pengaturan': typeof AdminPengaturanRoute
+  '/admin/video': typeof AdminVideoRoute
   '/berita/$slug': typeof BeritaSlugRoute
+  '/admin': typeof AdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/berita': typeof BeritaRouteWithChildren
   '/galeri': typeof GaleriRoute
   '/kontak': typeof KontakRoute
   '/profil': typeof ProfilRoute
   '/video': typeof VideoRoute
+  '/admin/berita': typeof AdminBeritaRoute
+  '/admin/galeri': typeof AdminGaleriRoute
+  '/admin/header': typeof AdminHeaderRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/admin/pengaturan': typeof AdminPengaturanRoute
+  '/admin/video': typeof AdminVideoRoute
   '/berita/$slug': typeof BeritaSlugRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/berita'
     | '/galeri'
     | '/kontak'
     | '/profil'
     | '/video'
+    | '/admin/berita'
+    | '/admin/galeri'
+    | '/admin/header'
+    | '/admin/login'
+    | '/admin/pengaturan'
+    | '/admin/video'
     | '/berita/$slug'
+    | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -99,20 +178,36 @@ export interface FileRouteTypes {
     | '/kontak'
     | '/profil'
     | '/video'
+    | '/admin/berita'
+    | '/admin/galeri'
+    | '/admin/header'
+    | '/admin/login'
+    | '/admin/pengaturan'
+    | '/admin/video'
     | '/berita/$slug'
+    | '/admin'
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/berita'
     | '/galeri'
     | '/kontak'
     | '/profil'
     | '/video'
+    | '/admin/berita'
+    | '/admin/galeri'
+    | '/admin/header'
+    | '/admin/login'
+    | '/admin/pengaturan'
+    | '/admin/video'
     | '/berita/$slug'
+    | '/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRouteWithChildren
   BeritaRoute: typeof BeritaRouteWithChildren
   GaleriRoute: typeof GaleriRoute
   KontakRoute: typeof KontakRoute
@@ -127,6 +222,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/berita': {
@@ -164,6 +266,55 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VideoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/berita': {
+      id: '/admin/berita'
+      path: '/berita'
+      fullPath: '/admin/berita'
+      preLoaderRoute: typeof AdminBeritaRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/galeri': {
+      id: '/admin/galeri'
+      path: '/galeri'
+      fullPath: '/admin/galeri'
+      preLoaderRoute: typeof AdminGaleriRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/header': {
+      id: '/admin/header'
+      path: '/header'
+      fullPath: '/admin/header'
+      preLoaderRoute: typeof AdminHeaderRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/login': {
+      id: '/admin/login'
+      path: '/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/pengaturan': {
+      id: '/admin/pengaturan'
+      path: '/pengaturan'
+      fullPath: '/admin/pengaturan'
+      preLoaderRoute: typeof AdminPengaturanRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/video': {
+      id: '/admin/video'
+      path: '/video'
+      fullPath: '/admin/video'
+      preLoaderRoute: typeof AdminVideoRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/berita/$slug': {
       id: '/berita/$slug'
       path: '/$slug'
@@ -173,6 +324,28 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface AdminRouteChildren {
+  AdminBeritaRoute: typeof AdminBeritaRoute
+  AdminGaleriRoute: typeof AdminGaleriRoute
+  AdminHeaderRoute: typeof AdminHeaderRoute
+  AdminLoginRoute: typeof AdminLoginRoute
+  AdminPengaturanRoute: typeof AdminPengaturanRoute
+  AdminVideoRoute: typeof AdminVideoRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminBeritaRoute: AdminBeritaRoute,
+  AdminGaleriRoute: AdminGaleriRoute,
+  AdminHeaderRoute: AdminHeaderRoute,
+  AdminLoginRoute: AdminLoginRoute,
+  AdminPengaturanRoute: AdminPengaturanRoute,
+  AdminVideoRoute: AdminVideoRoute,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 interface BeritaRouteChildren {
   BeritaSlugRoute: typeof BeritaSlugRoute
@@ -187,6 +360,7 @@ const BeritaRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRouteWithChildren,
   BeritaRoute: BeritaRouteWithChildren,
   GaleriRoute: GaleriRoute,
   KontakRoute: KontakRoute,
