@@ -1,4 +1,4 @@
-@import "tailwindcss" source(none);
+@import "tailwindcss";
 @source "../src";
 @import "tw-animate-css";
 
@@ -161,18 +161,22 @@
   --color-brand-blue-soft: var(--brand-blue-soft);
 }
 
-@utility site-container { width: min(100% - 2rem, 74rem); margin-inline: auto; }
-@utility section-space { padding-block: 5rem; }
-@utility section-heading { font-family: var(--font-display); font-size: 1.875rem; line-height: 1.2; font-weight: 800; color: var(--foreground); }
-@utility eyebrow { font-size: .75rem; line-height: 1rem; font-weight: 800; text-transform: uppercase; color: var(--primary); letter-spacing: .08em; }
-@utility soft-card { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--card); box-shadow: var(--shadow-soft); }
-@utility primary-button { display: inline-flex; min-height: 2.75rem; align-items: center; justify-content: center; gap: .5rem; border-radius: var(--radius-md); background: var(--primary); padding-inline: 1.25rem; color: var(--primary-foreground); font-size: .875rem; font-weight: 700; &:hover { transform: translateY(-2px); background: color-mix(in oklab, var(--primary) 88%, black); } }
-@utility outline-button { display: inline-flex; min-height: 2.75rem; align-items: center; justify-content: center; gap: .5rem; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--background); padding-inline: 1.25rem; color: var(--foreground); font-size: .875rem; font-weight: 700; &:hover { border-color: var(--primary); color: var(--primary); } }
-@utility icon-button { display: grid; width: 2.75rem; height: 2.75rem; place-items: center; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--background); color: var(--foreground); }
-@utility nav-link { border-radius: var(--radius-sm); padding: .65rem .8rem; color: var(--muted-foreground); font-size: .875rem; font-weight: 650; &:hover { background: var(--muted); color: var(--primary); } }
-@utility nav-link-active { background: var(--brand-blue-soft); color: var(--primary); }
-@utility footer-icon { display: grid; width: 2.5rem; height: 2.5rem; place-items: center; border: 1px solid color-mix(in oklab, var(--primary-foreground) 25%, transparent); border-radius: var(--radius-md); &:hover { background: var(--accent); color: var(--accent-foreground); } }
-@utility page-intro { border-bottom: 1px solid var(--border); background: linear-gradient(125deg, var(--brand-blue-soft), var(--background) 70%); }
+.site-container { width: min(100% - 2rem, 74rem); margin-inline: auto; }
+.section-space { padding-block: 5rem; }
+.section-heading { font-family: var(--font-display); font-size: 1.875rem; line-height: 1.2; font-weight: 800; color: var(--foreground); }
+.eyebrow { font-size: .75rem; line-height: 1rem; font-weight: 800; text-transform: uppercase; color: var(--primary); letter-spacing: .08em; }
+.soft-card { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--card); box-shadow: var(--shadow-soft); }
+.primary-button { display: inline-flex; min-height: 2.75rem; align-items: center; justify-content: center; gap: .5rem; border-radius: var(--radius-md); background: var(--primary); padding-inline: 1.25rem; color: var(--primary-foreground); font-size: .875rem; font-weight: 700; }
+.primary-button:hover { transform: translateY(-2px); background: color-mix(in oklab, var(--primary) 88%, black); }
+.outline-button { display: inline-flex; min-height: 2.75rem; align-items: center; justify-content: center; gap: .5rem; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--background); padding-inline: 1.25rem; color: var(--foreground); font-size: .875rem; font-weight: 700; }
+.outline-button:hover { border-color: var(--primary); color: var(--primary); }
+.icon-button { display: grid; width: 2.75rem; height: 2.75rem; place-items: center; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--background); color: var(--foreground); }
+.nav-link { border-radius: var(--radius-sm); padding: .65rem .8rem; color: var(--muted-foreground); font-size: .875rem; font-weight: 650; }
+.nav-link:hover { background: var(--muted); color: var(--primary); }
+.nav-link-active { background: var(--brand-blue-soft); color: var(--primary); }
+.footer-icon { display: grid; width: 2.5rem; height: 2.5rem; place-items: center; border: 1px solid color-mix(in oklab, var(--primary-foreground) 25%, transparent); border-radius: var(--radius-md); }
+.footer-icon:hover { background: var(--accent); color: var(--accent-foreground); }
+.page-intro { border-bottom: 1px solid var(--border); background: linear-gradient(125deg, var(--brand-blue-soft), var(--background) 70%); }
 
 /* Scroll reveal animations */
 .reveal {

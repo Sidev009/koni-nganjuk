@@ -18,7 +18,7 @@ export const Route = createFileRoute("/admin")({
 });
 
 const navItems = [
-  { label: "Dashboard", to: "/admin/", icon: LayoutDashboard },
+  { label: "Dashboard", to: "/admin", icon: LayoutDashboard },
   { label: "Berita", to: "/admin/berita", icon: Newspaper },
   { label: "Galeri", to: "/admin/galeri", icon: Image },
   { label: "Video", to: "/admin/video", icon: Video },
@@ -90,7 +90,7 @@ function AdminLayout() {
           <p className="mb-2 px-3 text-[10px] font-bold uppercase tracking-widest text-slate-400">Menu</p>
           {navItems.map((item) => {
             const Icon = item.icon;
-            const isExact = item.to === "/admin/" || item.to === "/admin";
+            const isExact = item.to === "/admin";
             const active = isExact
               ? pathname === "/admin" || pathname === "/admin/"
               : pathname.startsWith(item.to);

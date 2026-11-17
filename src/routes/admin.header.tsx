@@ -40,7 +40,13 @@ function AdminHeader() {
       const next = [...t];
       const swapIdx = idx + dir;
       if (swapIdx < 0 || swapIdx >= next.length) return next;
-      [next[idx], next[swapIdx]] = [next[swapIdx], next[idx]];
+
+      const current = next[idx];
+      const target = next[swapIdx];
+      if (current === undefined || target === undefined) return next;
+
+      next[idx] = target;
+      next[swapIdx] = current;
       return next;
     });
   };

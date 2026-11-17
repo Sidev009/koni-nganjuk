@@ -13,7 +13,7 @@ const EMPTY_FORM = { youtubeId: "", title: "", description: "", category: "" };
 /** Extract YouTube video ID from URL or ID string */
 function extractYoutubeId(input: string): string {
   const match = input.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|embed\/)([^&?/\s]{11})/);
-  return match ? match[1] : input.trim();
+  return match?.[1] ?? input.trim();
 }
 
 function AdminVideo() {
