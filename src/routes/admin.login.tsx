@@ -21,7 +21,7 @@ function AdminLogin() {
     setLoading(true);
     setTimeout(() => {
       if (adminLogin(username, password)) {
-        navigate({ to: "/admin/" });
+        navigate({ to: "/admin" });
       } else {
         setError("Username atau password salah. Silakan coba lagi.");
       }
